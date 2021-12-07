@@ -124,25 +124,7 @@ func drawing(bingo_boards [][][]string, bingo_draws string) int {
 									if number_of_boards_left == 0 {
 										winning_board = i
 										winning_number, _ = strconv.Atoi(bingo_draw)
-										fmt.Println(bingo_boards)
-										fmt.Println(winning_number)
-										fmt.Println(winning_board)
-										sum := 0
-										// Count score!
-										for _, winning_board_line := range bingo_boards[winning_board] {
-											for _, winning_board_piece := range winning_board_line {
-												if winning_board_piece != "x" {
-													winning_board_piece_int, err := strconv.Atoi(winning_board_piece)
-													if err != nil {
-														log.Fatalf("Program failed: %s", err)
-													}
-													sum += winning_board_piece_int
-												}
-											}
-										}
-										fmt.Println(sum)
-										solution = sum * winning_number
-										return solution
+										quit = true
 									}
 								}
 							} else {
@@ -177,25 +159,7 @@ func drawing(bingo_boards [][][]string, bingo_draws string) int {
 									if number_of_boards_left == 0 {
 										winning_board = i
 										winning_number, _ = strconv.Atoi(bingo_draw)
-										fmt.Println(bingo_boards)
-										fmt.Println(winning_number)
-										fmt.Println(winning_board)
-										sum := 0
-										// Count score!
-										for _, winning_board_line := range bingo_boards[winning_board] {
-											for _, winning_board_piece := range winning_board_line {
-												if winning_board_piece != "x" {
-													winning_board_piece_int, err := strconv.Atoi(winning_board_piece)
-													if err != nil {
-														log.Fatalf("Program failed: %s", err)
-													}
-													sum += winning_board_piece_int
-												}
-											}
-										}
-										fmt.Println(sum)
-										solution = sum * winning_number
-										return solution
+										quit = true
 									}
 								}
 							} else {
@@ -206,10 +170,40 @@ func drawing(bingo_boards [][][]string, bingo_draws string) int {
 							}
 						}
 					}
+					if quit {
+						break
+					}
 				}
+				if quit {
+					break
+				}
+			}
+			if quit {
+				break
+			}
+		}
+		if quit {
+			break
+		}
+	}
+	fmt.Println(bingo_boards)
+	fmt.Println(winning_number)
+	fmt.Println(winning_board)
+	sum := 0
+	// Count score!
+	for _, winning_board_line := range bingo_boards[winning_board] {
+		for _, winning_board_piece := range winning_board_line {
+			if winning_board_piece != "x" {
+				winning_board_piece_int, err := strconv.Atoi(winning_board_piece)
+				if err != nil {
+					log.Fatalf("Program failed: %s", err)
+				}
+				sum += winning_board_piece_int
 			}
 		}
 	}
+	fmt.Println(sum)
+	solution = sum * winning_number
 	return solution
 }
 
