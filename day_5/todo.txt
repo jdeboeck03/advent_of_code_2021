@@ -1,0 +1,4 @@
+use regex split to fix input lines
+remove non horizontal / vertical lines
+Create two dimensional empty matrix
+loop through input lines and update two dimensional matrix
