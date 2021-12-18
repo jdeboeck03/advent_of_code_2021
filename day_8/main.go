@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"sort"
 	"strings"
@@ -95,7 +96,7 @@ func process_input(input []string) ([]string, []string) {
 func process_input_2(input []string) ([][][]string, [][][]string) {
 	signal_patterns := make([][][]string, len(input))
 	for i := range signal_patterns {
-		signal_patterns[i] = make([][]string, 10)
+		signal_patterns[i] = make([][]string, 200)
 	}
 	output_values := make([][][]string, len(input))
 	for i := range output_values {
@@ -142,7 +143,7 @@ func processed_signal_patterns(signal_patterns_2 [][][]string) []numbers {
 		//fmt.Println(i)
 		//Create slice for numbers
 		processed_signal_patterns[i].numbers = []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
-		processed_signal_patterns[i].outputs = make([][]string, 10)
+		processed_signal_patterns[i].outputs = make([][]string, 200)
 	}
 	signal_wires := make(map[string]string)
 	for i, signal_pattern := range signal_patterns_2 {
@@ -234,6 +235,26 @@ func processed_signal_patterns(signal_patterns_2 [][][]string) []numbers {
 	return processed_signal_patterns
 }
 
+func calculate_output(processed_signal_patterns []numbers, output_values [][][]string) float64 {
+	output := 0.0
+	for i, output_values_line := range output_values {
+		for j, output_value := range output_values_line {
+			fmt.Println(processed_signal_patterns[i].outputs)
+			fmt.Println(output_value)
+			//Find index of output value
+			index := find_index_2(processed_signal_patterns[i].outputs, output_value)
+			//fmt.Println(index)
+			//calculate the output value
+			exp := float64(3 - j)
+			//fmt.Println(exp)
+			//fmt.Println(exp)
+			mult_ten := math.Pow(10, exp)
+			output += float64(index) * mult_ten
+		}
+	}
+	return output
+}
+
 func main() {
 	input, err := loadInput()
 	if err != nil {
@@ -251,8 +272,8 @@ func main() {
 	fmt.Println("Solution 2:")
 	signal_patterns_2, output_values_2 := process_input_2(input)
 	fmt.Println(signal_patterns_2)
-	fmt.Println(output_values_2)
 	processed_signal_patterns := processed_signal_patterns(signal_patterns_2)
-	fmt.Println(processed_signal_patterns)
+	output := calculate_output(processed_signal_patterns, output_values_2)
+	fmt.Printf("Output: %f\n", output)
 	fmt.Printf("Time: %s\n", time.Since(start2))
 }
